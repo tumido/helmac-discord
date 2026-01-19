@@ -4,7 +4,7 @@ Manage your entire Discord server (Helmáč) as declarative Terraform configurat
 
 ## Quick Start
 
-**To configure new divisions or teams:** Simply edit [divisions.tf](divisions.tf) and open a pull request. The rest is automated.
+**To configure new divisions or teams:** Simply edit [divisions.tf.json](divisions.tf.json) and open a pull request. The rest is automated.
 
 All channels, roles, permissions, and onboarding flows are generated automatically from the division definitions.
 
@@ -22,7 +22,7 @@ This project uses Terraform to manage:
 ### Architecture
 
 ```plain
-divisions.tf (single source of truth)
+divisions.tf.json (single source of truth)
     ↓
     ├─→ channels.tf    - Creates text channels + permissions
     ├─→ roles.tf       - Creates member & manager roles
@@ -69,22 +69,24 @@ terraform init
 
 ### Adding a New Division
 
-Edit [divisions.tf](divisions.tf) and add to the `locals.divize` list:
+Edit [divisions.tf.json](divisions.tf.json) and add to the `locals.divize` array:
 
-```hcl
+```json
 {
-  name  = "new-team"
-  color = {
-    clen   = 2067276  # Member role color (terraform is unable to handle HEX colors, use DEC instead)
-    garant = 3066993  # Manager role color
-  }
-  onboarding = {
-    description = "Help with new team tasks"
-    emoji_name  = "🆕"
-    title       = "New Team"
+  "name": "new-team",
+  "color": {
+    "clen": 2067276,
+    "garant": 3066993
+  },
+  "onboarding": {
+    "description": "Help with new team tasks",
+    "emoji_name": "🆕",
+    "title": "New Team"
   }
 }
 ```
+
+Note: Terraform cannot handle HEX colors, use decimal values instead.
 
 This automatically creates:
 
@@ -141,17 +143,17 @@ GitHub Actions automatically:
 
 ## Project Structure
 
-| File                             | Purpose                                                  |
-| -------------------------------- | -------------------------------------------------------- |
-| [divisions.tf](divisions.tf)     | **Division definitions** (edit this to add/modify teams) |
-| [channels.tf](channels.tf)       | Channel creation and permission overrides                |
-| [roles.tf](roles.tf)             | Role definitions (global + division roles)               |
-| [permissions.tf](permissions.tf) | Reusable permission datasets                             |
-| [onboarding.tf](onboarding.tf)   | Server onboarding flow configuration                     |
-| [server.tf](server.tf)           | Main server resource                                     |
-| [provider.tf](provider.tf)       | Discord provider authentication                          |
-| [variables.tf](variables.tf)     | Input variable definitions                               |
-| [versions.tf](versions.tf)       | Terraform and provider version constraints               |
+| File                                   | Purpose                                                  |
+| -------------------------------------- | -------------------------------------------------------- |
+| [divisions.tf.json](divisions.tf.json) | **Division definitions** (edit this to add/modify teams) |
+| [channels.tf](channels.tf)             | Channel creation and permission overrides                |
+| [roles.tf](roles.tf)                   | Role definitions (global + division roles)               |
+| [permissions.tf](permissions.tf)       | Reusable permission datasets                             |
+| [onboarding.tf](onboarding.tf)         | Server onboarding flow configuration                     |
+| [server.tf](server.tf)                 | Main server resource                                     |
+| [provider.tf](provider.tf)             | Discord provider authentication                          |
+| [variables.tf](variables.tf)           | Input variable definitions                               |
+| [versions.tf](versions.tf)             | Terraform and provider version constraints               |
 
 ## Important Notes
 
