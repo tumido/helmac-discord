@@ -20,6 +20,7 @@ runs:
         RESPONSE=$(curl -H "Authorization: token $GITHUB_TOKEN" -s $ARTIFACT_URI | jq -r '.artifacts[]')
         LATEST_ARTIFACT_URI=$(echo $RESPONSE | jq -r 'select(.name=="Encrypted Terraform State") | .archive_download_url' | sort -r | head -n 1)
 
+        echo "Downloading state from: $LATEST_ARTIFACT_URI"
         curl -L -H "Authorization: token $GITHUB_TOKEN" -o terraform.tfstate.encrypted.zip $LATEST_ARTIFACT_URI
         unzip -o terraform.tfstate.encrypted.zip
 
