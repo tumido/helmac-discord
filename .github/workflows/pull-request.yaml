@@ -1,16 +1,11 @@
-name: Apply changes
+name: Preview changes
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "**.tf"
+  pull_request:
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    name: Apply Terraform changes
+    name: Preview Terraform changes
     permissions:
       actions: read
       contents: read
@@ -35,16 +30,10 @@ jobs:
           TF_VAR_discord_token: ${{ secrets.DISCORD_BOT_TOKEN }}
           TF_VAR_server_id: ${{ secrets.DISCORD_SERVER_ID }}
         run: |
-          terraform plan
+          terraform plan -out .planfile
 
-      - name: Apply
-        env:
-          TF_VAR_discord_token: ${{ secrets.DISCORD_BOT_TOKEN }}
-          TF_VAR_server_id: ${{ secrets.DISCORD_SERVER_ID }}
-        run: |
-          terraform apply -auto-approve
-
-      - name: Upload state as artifact
-        uses: ./.github/actions/upload-state
+      - name: Post PR comment
+        uses: borchero/terraform-plan-comment@v2
         with:
-          encryption_key: ${{ secrets.ENCRYPTION_KEY }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          planfile: .planfile
