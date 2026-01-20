@@ -206,6 +206,18 @@
           "emoji_name": "🌐",
           "title": "Web"
         }
+      },
+      {
+        "name": "kapely",
+        "color": {
+          "clen": 0,
+          "garant": 0
+        },
+        "onboarding": {
+          "description": "jake kapely budou hrát",
+          "emoji_name": "🥁",
+          "title": "kapely"
+        }
       }
     ]
   }
