@@ -30,6 +30,11 @@ const createStringOption = (name: string, description: string, required = false)
 // Define your slash commands here
 const commands = [
   {
+    name: "ping",
+    description: "Responds with Pong!",
+    type: COMMAND_TYPE.CHAT_INPUT,
+  },
+  {
     name: "nova-divize",
     description: "Vytvoř novou divizi (tým)",
     type: COMMAND_TYPE.CHAT_INPUT,

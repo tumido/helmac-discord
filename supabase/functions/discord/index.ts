@@ -277,6 +277,15 @@ Deno.serve(async (req) => {
           return deferredResponse()
         }
 
+        case "ping": {
+          return jsonResponse({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+            data: {
+              content: "Pong! 🏓",
+            },
+          })
+        }
+
         default:
           return errorResponse(`❌ Neznámý příkaz: ${commandName}`)
       }
